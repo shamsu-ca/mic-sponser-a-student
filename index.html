@@ -84,8 +84,64 @@ canvas:active {
   gap: 18px;
 }
 
-/* Form Elements Common Styles */
-select, 
+/* FLEX ROW FOR DROPDOWN & UPLOAD */
+.input-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.input-row select,
+.input-row .upload-label {
+  flex: 1;
+  padding: 12px;
+  font-size: 15px;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+/* Select Styling */
+select {
+  border: 2px solid #e5e7eb;
+  background: #f9fafb;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* Upload Label Styling */
+.upload-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: white;
+  border: 2px dashed var(--primary);
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.upload-label:hover {
+  background: #f0fdf4;
+}
+
+.upload-label svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+#upload {
+  display: none;
+}
+
+/* Text Input */
 input[type="text"] {
   width: 100%;
   padding: 14px 16px;
@@ -98,35 +154,10 @@ input[type="text"] {
   transition: all 0.2s ease;
 }
 
-select:focus, 
 input[type="text"]:focus {
   outline: none;
   border-color: var(--primary);
   background: white;
-}
-
-/* Custom File Upload */
-.upload-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 14px;
-  background: white;
-  border: 2px dashed var(--primary);
-  border-radius: 12px;
-  color: var(--primary);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.upload-label:hover {
-  background: #f0fdf4;
-}
-
-#upload {
-  display: none;
 }
 
 /* Zoom Slider Styling */
@@ -213,25 +244,28 @@ button:active {
 
   <div class="controls">
     
-    <select id="frameSelect">
-      <option value="frame1.png">1 Year Duration</option>
-      <option value="frame2.png">6 Months Duration</option>
-      <option value="frame3.png">3 Months Duration</option>
-    </select>
+    <!-- DROPDOWN & UPLOAD IN SAME ROW -->
+    <div class="input-row">
+      <select id="frameSelect">
+        <option value="frame1.png">1 Year</option>
+        <option value="frame2.png">6 Months</option>
+        <option value="frame3.png">3 Months</option>
+      </select>
 
-    <label for="upload" class="upload-label">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-        <polyline points="17 8 12 3 7 8"/>
-        <line x1="12" y1="3" x2="12" y2="15"/>
-      </svg>
-      <span>Upload Student Photo</span>
-    </label>
-    <input type="file" id="upload" accept="image/*">
+      <label for="upload" class="upload-label">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        <span>Upload</span>
+      </label>
+      <input type="file" id="upload" accept="image/*">
+    </div>
 
     <input type="text" id="nameInput" placeholder="Enter Student Name">
 
-    <!-- New Zoom Slider Control -->
+    <!-- Zoom Slider Control -->
     <div class="zoom-control">
       <div class="zoom-label">
         <span>Zoom Level</span>
@@ -327,11 +361,7 @@ document.getElementById("zoomSlider").addEventListener("input", function() {
   document.getElementById("zoomValue").innerText = zoomPercent + "%";
   
   // Convert percent to scale factor
-  const newScale = zoomPercent / 100;
-  
-  // Optional: Keep image centered when zooming
-  // For simplicity, we just update scale here
-  scale = newScale;
+  scale = zoomPercent / 100;
   drawCanvas();
 });
 
@@ -346,7 +376,6 @@ canvas.addEventListener("touchend", endDrag);
 function startDrag(e) {
   isDragging = true;
   const touch = e.touches ? e.touches[0] : e;
-  // Calculate mouse position relative to canvas
   const rect = canvas.getBoundingClientRect();
   const canvasX = (touch.clientX - rect.left) * (canvas.width / rect.width);
   const canvasY = (touch.clientY - rect.top) * (canvas.height / rect.height);
