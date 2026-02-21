@@ -246,8 +246,9 @@ button:active {
     
     <!-- DROPDOWN & UPLOAD IN SAME ROW -->
     <div class="input-row">
+      <!-- "selected" attribute added below to ensure 1 Year is default -->
       <select id="frameSelect">
-        <option value="frame1.png">1 Year</option>
+        <option value="frame1.png" selected>1 Year</option>
         <option value="frame2.png">6 Months</option>
         <option value="frame3.png">3 Months</option>
       </select>
@@ -283,7 +284,7 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 /* ===== FIXED TEXT SETTINGS ===== */
-const TEXT_HEIGHT_FROM_BOTTOM = 1200;
+const TEXT_HEIGHT_FROM_BOTTOM = 1150;
 const FONT_SIZE = 140;
 const TEXT_COLOR = "#2b8e41";
 /* =============================== */
@@ -302,8 +303,6 @@ function loadFrame(src) {
   frameImage.onload = () => drawCanvas();
   frameImage.src = src;
 }
-
-loadFrame("frame1.png");
 
 /* Dropdown Change */
 document.getElementById("frameSelect").addEventListener("change", function() {
@@ -411,10 +410,11 @@ function downloadImage() {
   link.click();
 }
 
-drawCanvas();
+/* Automatic Load on Start */
+// This reads the value of the select dropdown (which defaults to 1 Year) and loads it immediately.
+loadFrame(document.getElementById("frameSelect").value);
+
 </script>
 
 </body>
 </html>
-
-
