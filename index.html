@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Sponsor a Student</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --primary: #2b8e41;
+  --primary-dark: #236b33;
+  --bg-color: #f0fdf4;
+  --surface: #ffffff;
+  --text-main: #1f2937;
+  --text-muted: #6b7280;
+  --radius: 16px;
+  --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+body {
+  margin: 0;
+  font-family: "Anek Malayalam", sans-serif;
+  background: var(--bg-color);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  max-width: 500px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background: var(--primary);
+  color: white;
+  padding: 24px 20px;
+  text-align: center;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.canvas-wrapper {
+  padding: 20px;
+  background: #e5e7eb;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+canvas {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 8px;
+  background: white;
+  touch-action: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: grab;
+}
+
+canvas:active {
+  cursor: grabbing;
+}
+
+.controls {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Form Elements Common Styles */
+select, 
+input[type="text"] {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+  background: #f9fafb;
+  box-sizing: border-box;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+select:focus, 
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: white;
+}
+
+/* Custom File Upload */
+.upload-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px;
+  background: white;
+  border: 2px dashed var(--primary);
+  border-radius: 12px;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.upload-label:hover {
+  background: #f0fdf4;
+}
+
+#upload {
+  display: none;
+}
+
+/* Zoom Slider Styling */
+.zoom-control {
+  background: #f9fafb;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.zoom-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+input[type="range"] {
+  width: 100%;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 5px;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  border: none;
+}
+
+/* Download Button */
+button {
+  width: 100%;
+  padding: 16px;
+  font-size: 18px;
+  border-radius: 12px;
+  border: none;
+  background: var(--primary);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  font-family: inherit;
+  margin-top: 5px;
+}
+
+button:hover {
+  background: var(--primary-dark);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h2>SPONSOR A STUDENT</h2>
+  </div>
+
+  <div class="canvas-wrapper">
+    <canvas id="canvas" width="2400" height="3000"></canvas>
+  </div>
+
+  <div class="controls">
+    
+    <select id="frameSelect">
+      <option value="frame1.png">1 Year Duration</option>
+      <option value="frame2.png">6 Months Duration</option>
+      <option value="frame3.png">3 Months Duration</option>
+    </select>
+
+    <label for="upload" class="upload-label">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="17 8 12 3 7 8"/>
+        <line x1="12" y1="3" x2="12" y2="15"/>
+      </svg>
+      <span>Upload Student Photo</span>
+    </label>
+    <input type="file" id="upload" accept="image/*">
+
+    <input type="text" id="nameInput" placeholder="Enter Student Name">
+
+    <!-- New Zoom Slider Control -->
+    <div class="zoom-control">
+      <div class="zoom-label">
+        <span>Zoom Level</span>
+        <span id="zoomValue">100%</span>
+      </div>
+      <input type="range" id="zoomSlider" min="10" max="300" value="100">
+    </div>
+
+    <button onclick="downloadImage()">Download Image</button>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+/* ===== FIXED TEXT SETTINGS ===== */
+const TEXT_HEIGHT_FROM_BOTTOM = 350;
+const FONT_SIZE = 140;
+const TEXT_COLOR = "#2b8e41";
+/* =============================== */
+
+let userImage = null;
+let frameImage = new Image();
+let scale = 1;
+let posX = 0;
+let posY = 0;
+let isDragging = false;
+let startX, startY;
+
+/* Load Selected Frame */
+function loadFrame(src) {
+  frameImage = new Image();
+  frameImage.onload = () => drawCanvas();
+  frameImage.src = src;
+}
+
+loadFrame("frame1.png");
+
+/* Dropdown Change */
+document.getElementById("frameSelect").addEventListener("change", function() {
+  loadFrame(this.value);
+});
+
+/* Draw Canvas */
+function drawCanvas() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  if (userImage) {
+    const imgWidth = userImage.width * scale;
+    const imgHeight = userImage.height * scale;
+    ctx.drawImage(userImage, posX, posY, imgWidth, imgHeight);
+  }
+
+  ctx.drawImage(frameImage, 0, 0, canvas.width, canvas.height);
+
+  const name = document.getElementById("nameInput").value;
+  ctx.fillStyle = TEXT_COLOR;
+  ctx.textAlign = "center";
+  ctx.font = `600 ${FONT_SIZE}px 'Anek Malayalam'`;
+  ctx.fillText(name, canvas.width / 2, canvas.height - TEXT_HEIGHT_FROM_BOTTOM);
+}
+
+/* Upload Image */
+document.getElementById("upload").addEventListener("change", function(e) {
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    const img = new Image();
+    img.onload = function() {
+      userImage = img;
+      scale = canvas.width / img.width; // Fit to width initially
+      posX = 0;
+      posY = 0;
+      
+      // Update Slider to match initial scale
+      const initialZoom = Math.round(scale * 100);
+      document.getElementById("zoomSlider").value = initialZoom;
+      document.getElementById("zoomValue").innerText = initialZoom + "%";
+      
+      drawCanvas();
+    };
+    img.src = event.target.result;
+  };
+  reader.readAsDataURL(e.target.files[0]);
+});
+
+/* Live Text Update */
+document.getElementById("nameInput").addEventListener("input", drawCanvas);
+
+/* Zoom Slider Logic */
+document.getElementById("zoomSlider").addEventListener("input", function() {
+  const zoomPercent = parseInt(this.value);
+  document.getElementById("zoomValue").innerText = zoomPercent + "%";
+  
+  // Convert percent to scale factor
+  const newScale = zoomPercent / 100;
+  
+  // Optional: Keep image centered when zooming
+  // For simplicity, we just update scale here
+  scale = newScale;
+  drawCanvas();
+});
+
+/* Drag Support */
+canvas.addEventListener("mousedown", startDrag);
+canvas.addEventListener("mousemove", drag);
+canvas.addEventListener("mouseup", endDrag);
+canvas.addEventListener("touchstart", startDrag);
+canvas.addEventListener("touchmove", drag);
+canvas.addEventListener("touchend", endDrag);
+
+function startDrag(e) {
+  isDragging = true;
+  const touch = e.touches ? e.touches[0] : e;
+  // Calculate mouse position relative to canvas
+  const rect = canvas.getBoundingClientRect();
+  const canvasX = (touch.clientX - rect.left) * (canvas.width / rect.width);
+  const canvasY = (touch.clientY - rect.top) * (canvas.height / rect.height);
+  
+  startX = canvasX - posX;
+  startY = canvasY - posY;
+}
+
+function drag(e) {
+  if (!isDragging) return;
+  e.preventDefault();
+  const touch = e.touches ? e.touches[0] : e;
+  
+  const rect = canvas.getBoundingClientRect();
+  const canvasX = (touch.clientX - rect.left) * (canvas.width / rect.width);
+  const canvasY = (touch.clientY - rect.top) * (canvas.height / rect.height);
+  
+  posX = canvasX - startX;
+  posY = canvasY - startY;
+  drawCanvas();
+}
+
+function endDrag() {
+  isDragging = false;
+}
+
+/* Download */
+function downloadImage() {
+  const name = document.getElementById("nameInput").value || "student";
+  const link = document.createElement("a");
+  link.download = name + ".png";
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+}
+
+drawCanvas();
+</script>
+
+</body>
+</html>
