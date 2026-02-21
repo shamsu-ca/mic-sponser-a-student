@@ -246,8 +246,8 @@ button:active {
     
     <!-- DROPDOWN & UPLOAD IN SAME ROW -->
     <div class="input-row">
+      <!-- "selected" attribute added below to ensure 1 Year is default -->
       <select id="frameSelect">
-        <!-- Default selected -->
         <option value="frame1.png" selected>1 Year</option>
         <option value="frame2.png">6 Months</option>
         <option value="frame3.png">3 Months</option>
@@ -264,7 +264,7 @@ button:active {
       <input type="file" id="upload" accept="image/*">
     </div>
 
-    <input type="text" id="nameInput" placeholder="Enter Student Name">
+    <input type="text" id="nameInput" placeholder="Name">
 
     <!-- Zoom Slider Control -->
     <div class="zoom-control">
@@ -284,7 +284,7 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 /* ===== FIXED TEXT SETTINGS ===== */
-const TEXT_HEIGHT_FROM_BOTTOM = 1135;
+const TEXT_HEIGHT_FROM_BOTTOM = 350;
 const FONT_SIZE = 140;
 const TEXT_COLOR = "#2b8e41";
 /* =============================== */
@@ -300,19 +300,14 @@ let startX, startY;
 /* Load Selected Frame */
 function loadFrame(src) {
   frameImage = new Image();
-  
-  // SUCCESS: Draw when loaded
-  frameImage.onload = () => {
-    drawCanvas();
-  };
-
-  // ERROR: Alert if image is missing
-  frameImage.onerror = () => {
-    alert("Error: Could not load frame image '" + src + "'. Check if the file exists in the folder.");
-  };
-
+  frameImage.onload = () => drawCanvas();
   frameImage.src = src;
 }
+
+/* Dropdown Change */
+document.getElementById("frameSelect").addEventListener("change", function() {
+  loadFrame(this.value);
+});
 
 /* Draw Canvas */
 function drawCanvas() {
@@ -324,10 +319,7 @@ function drawCanvas() {
     ctx.drawImage(userImage, posX, posY, imgWidth, imgHeight);
   }
 
-  // Only draw frame if it has loaded successfully
-  if (frameImage.complete && frameImage.naturalHeight !== 0) {
-     ctx.drawImage(frameImage, 0, 0, canvas.width, canvas.height);
-  }
+  ctx.drawImage(frameImage, 0, 0, canvas.width, canvas.height);
 
   const name = document.getElementById("nameInput").value;
   ctx.fillStyle = TEXT_COLOR;
@@ -336,11 +328,6 @@ function drawCanvas() {
   ctx.fillText(name, canvas.width / 2, canvas.height - TEXT_HEIGHT_FROM_BOTTOM);
 }
 
-/* Dropdown Change */
-document.getElementById("frameSelect").addEventListener("change", function() {
-  loadFrame(this.value);
-});
-
 /* Upload Image */
 document.getElementById("upload").addEventListener("change", function(e) {
   const reader = new FileReader();
@@ -348,10 +335,11 @@ document.getElementById("upload").addEventListener("change", function(e) {
     const img = new Image();
     img.onload = function() {
       userImage = img;
-      scale = canvas.width / img.width; 
+      scale = canvas.width / img.width; // Fit to width initially
       posX = 0;
       posY = 0;
       
+      // Update Slider to match initial scale
       const initialZoom = Math.round(scale * 100);
       document.getElementById("zoomSlider").value = initialZoom;
       document.getElementById("zoomValue").innerText = initialZoom + "%";
@@ -370,6 +358,8 @@ document.getElementById("nameInput").addEventListener("input", drawCanvas);
 document.getElementById("zoomSlider").addEventListener("input", function() {
   const zoomPercent = parseInt(this.value);
   document.getElementById("zoomValue").innerText = zoomPercent + "%";
+  
+  // Convert percent to scale factor
   scale = zoomPercent / 100;
   drawCanvas();
 });
@@ -420,14 +410,9 @@ function downloadImage() {
   link.click();
 }
 
-/* ==========================================
-   AUTOMATIC LOAD ON PAGE START
-   ========================================== */
-window.onload = function() {
-  // Get the default value from the dropdown (frame1.png) and load it
-  const defaultFrame = document.getElementById("frameSelect").value;
-  loadFrame(defaultFrame);
-};
+/* Automatic Load on Start */
+// This reads the value of the select dropdown (which defaults to 1 Year) and loads it immediately.
+loadFrame(document.getElementById("frameSelect").value);
 
 </script>
 
