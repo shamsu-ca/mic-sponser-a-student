@@ -1,423 +1,339 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<title>Sponsor a Student</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIC Prathiba Sangamam</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root {
-  --primary: #2b8e41;
-  --primary-dark: #236b33;
-  --bg-color: #f0fdf4;
-  --surface: #ffffff;
-  --text-main: #1f2937;
-  --text-muted: #6b7280;
-  --radius: 16px;
-  --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+
+body{
+margin:0;
+font-family:"Anek Malayalam",sans-serif;
+background:linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 10px;
+box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  font-family: "Anek Malayalam", sans-serif;
-  background: var(--bg-color);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-  box-sizing: border-box;
+.container{
+background: white;
+padding: 15px;
+border-radius: 12px;
+box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+width: 100%;
+max-width: 600px;
+box-sizing: border-box;
+display: flex;
+flex-direction: column;
+height: calc(100vh - 20px);
 }
 
-.container {
-  width: 100%;
-  max-width: 500px;
-  background: var(--surface);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+h3 {
+margin: 0 0 10px 0;
+color: #333;
+font-weight: 700;
+font-size: 22px;
+text-align: center;
 }
 
-.header {
-  background: var(--primary);
-  color: white;
-  padding: 24px 20px;
-  text-align: center;
+canvas{
+width: 100%;
+height: auto;
+max-height: calc(100vh - 220px);
+object-fit: contain;
+border-radius: 8px;
+background:#eee;
+margin-bottom: 15px;
+box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-.header h2 {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+.row {
+display: flex;
+gap: 10px;
+margin-bottom: 10px;
+width: 100%;
 }
 
-.canvas-wrapper {
-  padding: 20px;
-  background: #e5e7eb;
-  display: flex;
-  justify-content: center;
-  position: relative;
+.input-group {
+flex: 1;
+text-align: left;
 }
 
-canvas {
-  width: 100%;
-  max-width: 450px;
-  border-radius: 8px;
-  background: white;
-  touch-action: none;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  cursor: grab;
+label {
+display: block;
+margin-bottom: 4px;
+font-weight: 600;
+color: #555;
+font-size: 14px;
 }
 
-canvas:active {
-  cursor: grabbing;
+input, select {
+width: 100%;
+padding: 10px;
+font-size: 15px;
+border-radius: 8px;
+border: 2px solid #e0e0e0;
+background: #fafafa;
+transition: border-color 0.3s;
+box-sizing: border-box;
+font-family: inherit;
 }
 
-.controls {
-  padding: 25px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+input:focus, select:focus {
+border-color: #0a7cff;
+outline: none;
+background: #fff;
 }
 
-/* FLEX ROW FOR DROPDOWN & UPLOAD */
-.input-row {
-  display: flex;
-  gap: 10px;
-  width: 100%;
-}
-
-.input-row select,
-.input-row .upload-label {
-  flex: 1;
-  padding: 12px;
-  font-size: 15px;
-  border-radius: 12px;
-  box-sizing: border-box;
-}
-
-/* Select Styling */
-select {
-  border: 2px solid #e5e7eb;
-  background: #f9fafb;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-select:focus {
-  outline: none;
-  border-color: var(--primary);
-}
-
-/* Upload Label Styling */
-.upload-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: white;
-  border: 2px dashed var(--primary);
-  color: var(--primary);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.upload-label:hover {
-  background: #f0fdf4;
-}
-
-.upload-label svg {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-}
-
-#upload {
-  display: none;
-}
-
-/* Text Input */
-input[type="text"] {
-  width: 100%;
-  padding: 14px 16px;
-  font-size: 16px;
-  border-radius: 12px;
-  border: 2px solid #e5e7eb;
-  background: #f9fafb;
-  box-sizing: border-box;
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-
-input[type="text"]:focus {
-  outline: none;
-  border-color: var(--primary);
-  background: white;
-}
-
-/* Zoom Slider Styling */
-.zoom-control {
-  background: #f9fafb;
-  padding: 12px 16px;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-}
-
-.zoom-label {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-  font-weight: 600;
-}
-
-input[type="range"] {
-  width: 100%;
-  height: 6px;
-  background: #e5e7eb;
-  border-radius: 5px;
-  outline: none;
-  -webkit-appearance: none;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--primary);
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-input[type="range"]::-moz-range-thumb {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--primary);
-  cursor: pointer;
-  border: none;
-}
-
-/* Download Button */
-button {
-  width: 100%;
-  padding: 16px;
-  font-size: 18px;
-  border-radius: 12px;
-  border: none;
-  background: var(--primary);
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.1s ease;
-  font-family: inherit;
-  margin-top: 5px;
+button{
+width: 100%;
+padding: 12px;
+margin-top: 5px;
+font-size: 17px;
+border-radius: 8px;
+border: none;
+background: linear-gradient(45deg, #0a7cff, #0056b3);
+color: white;
+font-weight: bold;
+cursor: pointer;
+transition: transform 0.2s, box-shadow 0.2s;
 }
 
 button:hover {
-  background: var(--primary-dark);
+transform: translateY(-2px);
+box-shadow: 0 5px 15px rgba(10, 124, 255, 0.3);
 }
 
-button:active {
-  transform: scale(0.98);
+@media (max-width: 400px) {
+    .row {
+        flex-direction: column;
+    }
+    canvas {
+        max-height: 50vh;
+    }
 }
+
 </style>
 </head>
+
 <body>
 
 <div class="container">
-  <div class="header">
-    <h2>SPONSOR A STUDENT</h2>
-  </div>
 
-  <div class="canvas-wrapper">
-    <canvas id="canvas" width="2400" height="3000"></canvas>
-  </div>
+<h3>MIC Prathiba Sangamam</h3>
 
-  <div class="controls">
-    
-    <!-- DROPDOWN & UPLOAD IN SAME ROW -->
-    <div class="input-row">
-      <!-- "selected" attribute added below to ensure 1 Year is default -->
-      <select id="frameSelect">
-        <option value="frame1.png" selected>1 Year</option>
-        <option value="frame2.png">6 Months</option>
-        <option value="frame3.png">3 Months</option>
-      </select>
+<canvas id="canvas" width="2480" height="2953"></canvas>
 
-      <label for="upload" class="upload-label">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-          <polyline points="17 8 12 3 7 8"/>
-          <line x1="12" y1="3" x2="12" y2="15"/>
-        </svg>
-        <span>Upload</span>
-      </label>
-      <input type="file" id="upload" accept="image/*">
-    </div>
+<div class="controls">
 
-    <input type="text" id="nameInput" placeholder="Name">
+<!-- Row 1: Upload and Name -->
+<div class="row">
+<div class="input-group">
+<label>Photo</label>
+<input type="file" id="upload" accept="image/*">
+</div>
+<div class="input-group">
+<label>Name</label>
+<input type="text" id="nameInput" placeholder="Enter Name">
+</div>
+</div>
 
-    <!-- Zoom Slider Control -->
-    <div class="zoom-control">
-      <div class="zoom-label">
-        <span>Zoom Level</span>
-        <span id="zoomValue">100%</span>
-      </div>
-      <input type="range" id="zoomSlider" min="10" max="300" value="100">
-    </div>
+<!-- Row 2: Class and Result -->
+<div class="row">
+<div class="input-group">
+<label>Class</label>
+<select id="classSelect">
+<option value="5th">5th</option>
+<option value="7th">7th</option>
+</select>
+</div>
+<div class="input-group">
+<label>Result</label>
+<select id="resultSelect">
+<option value="Distinction">Distinction</option>
+<option value="Top Plus">Top Plus</option>
+</select>
+</div>
+</div>
 
-    <button onclick="downloadImage()">Download Image</button>
-  </div>
+<button onclick="downloadImage()">Download Image</button>
+
+</div>
+
 </div>
 
 <script>
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
 
-/* ===== FIXED TEXT SETTINGS ===== */
-const TEXT_HEIGHT_FROM_BOTTOM = 1145;
-const FONT_SIZE = 110;
-const TEXT_COLOR = "#2b8e41";
-/* =============================== */
+// ==========================================
+// EDITABLE CONFIGURATION
+// ==========================================
 
-let userImage = null;
-let frameImage = new Image();
-let scale = 1;
-let posX = 0;
-let posY = 0;
-let isDragging = false;
-let startX, startY;
+const CONFIG = {
+    // Font Sizes
+    NAME_FONT_SIZE: 120,
+    CLASS_FONT_SIZE: 90,
+    RESULT_FONT_SIZE: 90,
 
-/* Load Selected Frame */
-function loadFrame(src) {
-  frameImage = new Image();
-  frameImage.onload = () => drawCanvas();
-  frameImage.src = src;
+    // Colors (Hex)
+    TEXT_COLOR: "#ffffff", // Default White
+
+    // Vertical Position (Distance from Bottom)
+    // Canvas Height is 2953. 
+    TEXT_HEIGHT_FROM_BOTTOM: 953, 
+
+    // Horizontal Positions (X Axis)
+    // Canvas Width is 2480. 
+    COL_1_X: 413,  // canvas.width / 6
+    COL_2_X: 1240, // canvas.width / 2
+    COL_3_X: 2066  // canvas.width * 5 / 6
+};
+
+// ==========================================
+// END CONFIGURATION
+// ==========================================
+
+const canvas=document.getElementById("canvas");
+const ctx=canvas.getContext("2d");
+
+let userImage=null;
+let frameImage=new Image();
+frameImage.src="frame.png";
+
+let scale=1;
+let posX=0;
+let posY=0;
+
+let dragging=false;
+
+function drawCanvas(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+if(userImage){
+    let w=userImage.width*scale;
+    let h=userImage.height*scale;
+    ctx.drawImage(userImage,posX,posY,w,h);
 }
 
-/* Dropdown Change */
-document.getElementById("frameSelect").addEventListener("change", function() {
-  loadFrame(this.value);
-});
-
-/* Draw Canvas */
-function drawCanvas() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  if (userImage) {
-    const imgWidth = userImage.width * scale;
-    const imgHeight = userImage.height * scale;
-    ctx.drawImage(userImage, posX, posY, imgWidth, imgHeight);
-  }
-
-  ctx.drawImage(frameImage, 0, 0, canvas.width, canvas.height);
-
-  const name = document.getElementById("nameInput").value;
-  ctx.fillStyle = TEXT_COLOR;
-  ctx.textAlign = "center";
-  ctx.font = `600 ${FONT_SIZE}px 'Anek Malayalam'`;
-  ctx.fillText(name, canvas.width / 2, canvas.height - TEXT_HEIGHT_FROM_BOTTOM);
+if(frameImage.complete) { 
+    ctx.drawImage(frameImage,0,0,canvas.width,canvas.height);
 }
 
-/* Upload Image */
-document.getElementById("upload").addEventListener("change", function(e) {
-  const reader = new FileReader();
-  reader.onload = function(event) {
-    const img = new Image();
-    img.onload = function() {
-      userImage = img;
-      scale = canvas.width / img.width; // Fit to width initially
-      posX = 0;
-      posY = 0;
-      
-      // Update Slider to match initial scale
-      const initialZoom = Math.round(scale * 100);
-      document.getElementById("zoomSlider").value = initialZoom;
-      document.getElementById("zoomValue").innerText = initialZoom + "%";
-      
-      drawCanvas();
+// Get Input Values
+const name = document.getElementById("nameInput").value;
+const cls = document.getElementById("classSelect").value;
+const res = document.getElementById("resultSelect").value;
+
+// Calculate Y position from bottom
+const textY = canvas.height - CONFIG.TEXT_HEIGHT_FROM_BOTTOM;
+
+ctx.fillStyle = CONFIG.TEXT_COLOR;
+ctx.textAlign = "center";
+
+// Draw Column 1
+drawColumn(CONFIG.COL_1_X, textY, name, cls, res);
+
+// Draw Column 2
+drawColumn(CONFIG.COL_2_X, textY, name, cls, res);
+
+// Draw Column 3
+drawColumn(CONFIG.COL_3_X, textY, name, cls, res);
+}
+
+function drawColumn(x, y, name, cls, res){
+    // Draw Name
+    ctx.font = `600 ${CONFIG.NAME_FONT_SIZE}px 'Anek Malayalam'`;
+    ctx.fillText(name, x, y);
+
+    // Draw Class
+    ctx.font = `600 ${CONFIG.CLASS_FONT_SIZE}px 'Anek Malayalam'`;
+    ctx.fillText(cls, x, y + parseInt(CONFIG.CLASS_FONT_SIZE) + 10);
+
+    // Draw Result
+    ctx.font = `600 ${CONFIG.RESULT_FONT_SIZE}px 'Anek Malayalam'`;
+    ctx.fillText(res, x, y + parseInt(CONFIG.CLASS_FONT_SIZE) + parseInt(CONFIG.RESULT_FONT_SIZE) + 25);
+}
+
+document.getElementById("upload").addEventListener("change", function(e){
+    let reader=new FileReader();
+    reader.onload=function(event){
+        let img=new Image();
+        img.onload=function(){
+            userImage=img;
+            scale=canvas.width/img.width;
+            posX=0;
+            posY=0;
+            drawCanvas();
+        };
+        img.src=event.target.result;
     };
-    img.src = event.target.result;
-  };
-  reader.readAsDataURL(e.target.files[0]);
+    reader.readAsDataURL(e.target.files[0]);
 });
 
-/* Live Text Update */
-document.getElementById("nameInput").addEventListener("input", drawCanvas);
-
-/* Zoom Slider Logic */
-document.getElementById("zoomSlider").addEventListener("input", function() {
-  const zoomPercent = parseInt(this.value);
-  document.getElementById("zoomValue").innerText = zoomPercent + "%";
-  
-  // Convert percent to scale factor
-  scale = zoomPercent / 100;
-  drawCanvas();
+// Auto-update on input changes
+["nameInput", "classSelect", "resultSelect"].forEach(id => {
+    document.getElementById(id).addEventListener("input", drawCanvas);
 });
 
-/* Drag Support */
-canvas.addEventListener("mousedown", startDrag);
-canvas.addEventListener("mousemove", drag);
-canvas.addEventListener("mouseup", endDrag);
-canvas.addEventListener("touchstart", startDrag);
-canvas.addEventListener("touchmove", drag);
-canvas.addEventListener("touchend", endDrag);
+// Drag Logic
+let dragStartX, dragStartY, startPosX, startPosY;
 
-function startDrag(e) {
-  isDragging = true;
-  const touch = e.touches ? e.touches[0] : e;
-  const rect = canvas.getBoundingClientRect();
-  const canvasX = (touch.clientX - rect.left) * (canvas.width / rect.width);
-  const canvasY = (touch.clientY - rect.top) * (canvas.height / rect.height);
-  
-  startX = canvasX - posX;
-  startY = canvasY - posY;
+canvas.addEventListener("mousedown", e => {
+    dragging = true;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    
+    dragStartX = (e.clientX - rect.left) * scaleX;
+    dragStartY = (e.clientY - rect.top) * scaleY;
+    
+    startPosX = posX;
+    startPosY = posY;
+});
+
+canvas.addEventListener("mousemove", e => {
+    if(!dragging) return;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    
+    const mouseX = (e.clientX - rect.left) * scaleX;
+    const mouseY = (e.clientY - rect.top) * scaleY;
+    
+    posX = startPosX + (mouseX - dragStartX);
+    posY = startPosY + (mouseY - dragStartY);
+    
+    drawCanvas();
+});
+
+window.addEventListener("mouseup", () => dragging = false);
+
+canvas.addEventListener("wheel", e => {
+    e.preventDefault();
+    scale += e.deltaY * -0.001;
+    scale = Math.min(Math.max(0.5, scale), 5);
+    drawCanvas();
+});
+
+function downloadImage(){
+    const name = document.getElementById("nameInput").value || "campaign";
+    const link = document.createElement("a");
+    link.download = name + ".png";
+    link.href = canvas.toDataURL();
+    link.click();
 }
 
-function drag(e) {
-  if (!isDragging) return;
-  e.preventDefault();
-  const touch = e.touches ? e.touches[0] : e;
-  
-  const rect = canvas.getBoundingClientRect();
-  const canvasX = (touch.clientX - rect.left) * (canvas.width / rect.width);
-  const canvasY = (touch.clientY - rect.top) * (canvas.height / rect.height);
-  
-  posX = canvasX - startX;
-  posY = canvasY - startY;
-  drawCanvas();
-}
+window.downloadImage = downloadImage;
 
-function endDrag() {
-  isDragging = false;
-}
-
-/* Download */
-function downloadImage() {
-  const name = document.getElementById("nameInput").value || "student";
-  const link = document.createElement("a");
-  link.download = name + ".png";
-  link.href = canvas.toDataURL("image/png");
-  link.click();
-}
-
-/* Automatic Load on Start */
-// This reads the value of the select dropdown (which defaults to 1 Year) and loads it immediately.
-loadFrame(document.getElementById("frameSelect").value);
+frameImage.onload = drawCanvas;
 
 </script>
 
 </body>
 </html>
-
-
-
